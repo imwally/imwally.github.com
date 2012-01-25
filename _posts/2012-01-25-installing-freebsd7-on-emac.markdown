@@ -22,45 +22,53 @@ For some reason (which I couldn't find documented anywhere unless I'm blind) Fre
 #### Solution
 Let's start from the beginning. To properly setup your partitions you will need to boot up either a live Linux distro or if you happen to have any OS X CDs lying around that will work too. I'm going to base this off of using OS X to setup the disks. When you boot up the OS X installation CD (by holding down C) you will first select your language and then you'll notice you have various options in the top menu bar. You want to select Utilities > Disk Utility. Select the hard drive you want to partition from the left hand side and then click on the Partition option on the right. If you want to go with the standard:
 
-    UFS (Unix File System) Partitions
-    / - fb_root - 512MB
-    swap - fb_swap - 600MB
-    /var - fb_var - 750MB
-    /tmp - fb_tmp - 800MB
-    /usr - fb_user - Rest of disk space
+<pre>
+UUFS (Unix File System) Partitions
+/ - fb_root - 512MB
+swap - fb_swap - 600MB
+/var - fb_var - 750MB
+/tmp - fb_tmp - 800MB
+/usr - fb_user - Rest of disk space
+</pre>
 
 Then we want to partition are disk into 5 different slices according to the size that you want for each slice. At the very least make sure you have a root partition and a swap. Also, to make things easier you can label each disk as I did above. Once everything looks right then go ahead and click partition.
 
 Now we can boot into FreeBSD and head straight to the dreaded Disklabel where everything ended in disaster before. Instead of having one giant disk that you might have seen before such as:
 
-				Disk: ad0 Partition name: ad0s1 Free: xxxxx blocks (xxxxxxxMB)
+<pre>Disk: ad0 Partition name: ad0s1 Free: xxxxx blocks (xxxxxxxMB)</pre>
 
 You will now see something similar to this:
 
-				Disk: ad0 Partition name: ad0s1 Free: 63 blocks (0MB)
-				Disk: ad0 Partition name: ad0s2 Free: 262144 blocks (128MB)
-				Disk: ad0 Partition name: ad0s3 Free: __n__ blocks (10MB)
-				Disk: ad0 Partition name: ad0s4 Free: 17408 blocks (8MB)
-				Disk: ad0 Partition name: ad0s5 Free: __n__ blocks (33000MB)
-				Disk: ad0 Partition name: ad0s6 Free: 17408 blocks (8MB)
-				Disk: ad0 Partition name: ad0s7 Free: __n__ blocks (750MB)
-				Disk: ad0 Partition name: ad0s8 Free: 17408 blocks (8MB)
-				Disk: ad0 Partition name: ad0s9 Free: __n__ blocks (2000MB)
+<pre>
+Disk: ad0 Partition name: ad0s1 Free: 63 blocks (0MB)
+Disk: ad0 Partition name: ad0s2 Free: 262144 blocks (128MB)
+Disk: ad0 Partition name: ad0s3 Free: __n__ blocks (10MB)
+Disk: ad0 Partition name: ad0s4 Free: 17408 blocks (8MB)
+Disk: ad0 Partition name: ad0s5 Free: __n__ blocks (33000MB)
+Disk: ad0 Partition name: ad0s6 Free: 17408 blocks (8MB)
+Disk: ad0 Partition name: ad0s7 Free: __n__ blocks (750MB)
+Disk: ad0 Partition name: ad0s8 Free: 17408 blocks (8MB)
+Disk: ad0 Partition name: ad0s9 Free: __n__ blocks (2000MB)
+</pre>
 
 I pulled the above from one of the top resources listed just to give you an idea. The disk numbers and sizes my vary depending on how you partitioned your disk. You will also see extra 8MB and 10MB partitions, don't worry about these, just ignore them. Just make sure you remember the sizes for which your partitioned your drive meaning your final disk layout should resemble this according to my map listed above:
 
-				/ - Disk: ad0 Partition name: ad0s1 Free: xxxx blocks (512MB)
-				swap - Disk: ad0 Partition name: ad0s2 Free: xxxx blocks (600MB)
-				/var - Disk: ad0 Partition name: ad0s3 Free: xxxx blocks (750MB)
-				/tmp - Disk: ad0 Partition name: ad0s4 Free: xxxx blocks (800MB)
-				/usr - Disk: ad0 Partition name: ad0s5 Free: xxxx blocks (25000MB)
+<pre>
+/ - Disk: ad0 Partition name: ad0s1 Free: xxxx blocks (512MB)
+swap - Disk: ad0 Partition name: ad0s2 Free: xxxx blocks (600MB)
+/var - Disk: ad0 Partition name: ad0s3 Free: xxxx blocks (750MB)
+/tmp - Disk: ad0 Partition name: ad0s4 Free: xxxx blocks (800MB)
+/usr - Disk: ad0 Partition name: ad0s5 Free: xxxx blocks (25000MB)
+</pre>
 
 To create a FS highlight a partition such as the 512MB slice, press C then new file system and name it /. This will be your root FS. Just keep going down the line and create a FS for your /var, /tmp, and /usr partitions as well as a swap. Once everything looks right and lines up according to the sizes that you've setup then press Q and you should hopefully see that it successfully mounted the root FS and continues to a normal installation.
 
 #### Post Installation
 In order to boot your fresh FreeBSD install you will need to boot into Open Firmware first by pressing ctrl + option + f + o. Once in Open Firmware you can either boot FreeBSD from the CD boot loader (FreeBSD CD must be in the drive) by typing:
 
+<pre>
 0 > boot cd:,\boot\loader hd:X
+</pre>
 
 Where X is the partition number where the root FS is. In the case above where the 512MB root partition is ad0s1 you would replace hd:X with hd:1.
 
