@@ -22,12 +22,12 @@ For some reason (which I couldn't find documented anywhere unless I'm blind) Fre
 #### Solution
 Let's start from the beginning. To properly setup your partitions you will need to boot up either a live Linux distro or if you happen to have any OS X CDs lying around that will work too. I'm going to base this off of using OS X to setup the disks. When you boot up the OS X installation CD (by holding down C) you will first select your language and then you'll notice you have various options in the top menu bar. You want to select Utilities > Disk Utility. Select the hard drive you want to partition from the left hand side and then click on the Partition option on the right. If you want to go with the standard:
 
-`UFS (Unix File System) Partitions
+<code>UFS (Unix File System) Partitions
 / - fb_root - 512MB
 swap - fb_swap - 600MB
 /var - fb_var - 750MB
 /tmp - fb_tmp - 800MB
-/usr - fb_user - Rest of disk space`
+/usr - fb_user - Rest of disk space</code>
 
 Then we want to partition are disk into 5 different slices according to the size that you want for each slice. At the very least make sure you have a root partition and a swap. Also, to make things easier you can label each disk as I did above. Once everything looks right then go ahead and click partition.
 
