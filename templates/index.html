@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>vomit</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <div id="main">
+        
+        <h1>Blog Posts</h1>
+
+        {{ range $post := .Posts }}
+            <div class="list-post">
+                <div class="list-title">
+                    <strong><a href="{{ $post.Filename }}">{{ $post.Title }}</a></strong>
+                </div> 
+                <div class="list-date">
+                    <em>{{ $post.Date }}</em>
+                </div>
+            </div>
+        {{ end }}
+
+    </div>
+
+
+</body>
+</html>
